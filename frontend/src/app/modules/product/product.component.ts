@@ -32,6 +32,7 @@ export class ProductComponent implements OnInit{
     constructor(private service : ProductService) {}
 
     getProducts() {
-        this.products = this.service.getProducts();
+        this.service.getProducts()
+            .subscribe((items: Product[]) => this.products = items);
     }
 }
