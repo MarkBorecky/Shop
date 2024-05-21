@@ -3,8 +3,8 @@ package pl.nullpointerexception.shop.product.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.nullpointerexception.shop.product.dao.ProductDao;
 import pl.nullpointerexception.shop.product.model.Product;
+import pl.nullpointerexception.shop.product.service.ProductService;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 	
-	private final ProductDao productDao;
+	private final ProductService service;
 	
 	@GetMapping("/products")
 	public List<Product> getProducts() {
-		return this.productDao.getAll();
+		return this.service.getProducts();
 	}
 }
