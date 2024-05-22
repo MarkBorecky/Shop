@@ -4,18 +4,27 @@ import {FooterComponent} from "../../shared/components/footer/footer.component";
 import {HeaderComponent} from "../../shared/components/header/header.component";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {SidebarComponent} from "../../shared/components/sidebar/sidebar.component";
+import {MatIcon} from "@angular/material/icon";
+import {MatButton} from "@angular/material/button";
+import {MatListOption, MatSelectionList} from "@angular/material/list";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-fullpageadmin',
   standalone: true,
-  imports: [
-    FlexModule,
-    FooterComponent,
-    HeaderComponent,
-    RouterOutlet,
-    SidebarComponent,
-    RouterLink
-  ],
+    imports: [
+        FlexModule,
+        FooterComponent,
+        HeaderComponent,
+        RouterOutlet,
+        SidebarComponent,
+        RouterLink,
+        MatIcon,
+        MatButton,
+        MatListOption,
+        MatSelectionList,
+        NgForOf
+    ],
   templateUrl: './fullpageadmin.component.html',
   styleUrl: './fullpageadmin.component.scss'
 })

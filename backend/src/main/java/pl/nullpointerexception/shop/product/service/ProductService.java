@@ -1,18 +1,18 @@
 package pl.nullpointerexception.shop.product.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.nullpointerexception.shop.product.model.Product;
 import pl.nullpointerexception.shop.product.repository.ProductRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 	
 	private final ProductRepository repository;
-	public List<Product> getProducts() {
-		return this.repository.findAll();
+	public Page<Product> getProducts(Pageable pageable) {
+		return this.repository.findAll(pageable);
 	}
 }
