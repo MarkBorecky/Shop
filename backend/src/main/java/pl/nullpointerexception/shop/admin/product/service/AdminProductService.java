@@ -1,0 +1,16 @@
+package pl.nullpointerexception.shop.admin.product.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import pl.nullpointerexception.shop.admin.product.repository.AdminProductRepository;
+
+@Service
+@RequiredArgsConstructor
+public class AdminProductService {
+	private final AdminProductRepository repository;
+	public Page<AdminProduct> getProducts(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
+}

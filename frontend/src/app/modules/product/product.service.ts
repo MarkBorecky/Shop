@@ -10,8 +10,7 @@ import {Pageable} from "../../shared/model/pageable";
 })
 export class ProductService {
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
     getProducts(pageable: Pageable): Observable<Page<Product>> {
         return this.http.get<Page<Product>>(`/api/products?page=${pageable.page}&size=${pageable.pageSize}`);
