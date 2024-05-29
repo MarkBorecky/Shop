@@ -1,0 +1,6 @@
+<div>
+    <h1>Dodaj Produkt</h1>
+    <form [formGroup]="productForm" (submit)="submit()" fxLayout="column">
+        <app-admin-product-form [parentForm]="productForm"></app-admin-product-form>
+    </form>
+</div>
