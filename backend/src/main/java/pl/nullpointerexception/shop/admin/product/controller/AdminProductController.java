@@ -1,5 +1,6 @@
 package pl.nullpointerexception.shop.admin.product.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +32,12 @@ public class AdminProductController {
 	}
 	
 	@PostMapping("/admin/products")
-	public AdminProduct createProduct(@RequestBody AdminProductDTO productDTO) {
+	public AdminProduct createProduct(@Valid @RequestBody AdminProductDTO productDTO) {
 		return this.service.createProduct(productDTO.mapToAdminProduct(EMPTY_ID));
 	}
 	
 	@PutMapping("/admin/products/{id}")
-	public AdminProduct updateProduct(@PathVariable Long id, @RequestBody AdminProductDTO productDTO) {
+	public AdminProduct updateProduct(@PathVariable Long id, @Valid @RequestBody AdminProductDTO productDTO) {
 		return this.service.updateProduct(productDTO.mapToAdminProduct(id));
 	}
 }
