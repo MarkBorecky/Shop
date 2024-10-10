@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdminProductAddService } from './admin-product-add.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdminMessageService } from '../admin-message.service';
 
 @Component({
   selector: 'app-admin-product-add',
@@ -21,6 +22,7 @@ export class AdminProductAddComponent implements OnInit {
     private adminProductAddService: AdminProductAddService,
     private router: Router,
     private snackbar: MatSnackBar,
+    private adminMessageService: AdminMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -36,12 +38,19 @@ export class AdminProductAddComponent implements OnInit {
   submit() {
     this.adminProductAddService
       .saveNewProduct(this.productForm.value)
-      .subscribe((product) => {
-        this.router
-          .navigate(['/admin/products/update', product.id])
-          .then(() =>
-            this.snackbar.open('Produkt zosta? dodany', '', { duration: 3000 }),
-          );
+      .subscribe({
+        next: (product) => {
+          this.router
+            .navigate(['/admin/products/update', product.id])
+            .then(() =>
+              this.snackbar.open('Produkt zosta? dodany', '', {
+                duration: 3000,
+              }),
+            );
+        },
+        error: (err) => {
+          this.adminMessageService.addBackendErrors(err.error)
+        },
       });
   }
 }
