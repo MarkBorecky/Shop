@@ -6,14 +6,18 @@ import {HttpClient} from "@angular/common/http";
 import {AdminProduct} from "./adminProduct";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminProductService {
+  constructor(private readonly http: HttpClient) {}
 
-    constructor(private http: HttpClient) {
-    }
+  getProducts(pageable: Pageable): Observable<Page<AdminProduct>> {
+    return this.http.get<Page<AdminProduct>>(
+      `/api/admin/products?page=${pageable.page}&size=${pageable.pageSize}`,
+    );
+  }
 
-    getProducts(pageable: Pageable): Observable<Page<AdminProduct>> {
-        return this.http.get<Page<AdminProduct>>(`/api/admin/products?page=${pageable.page}&size=${pageable.pageSize}`);
-    }
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`/api/admin/products/${id}`);
+  }
 }

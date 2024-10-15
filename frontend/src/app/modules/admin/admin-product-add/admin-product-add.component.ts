@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminProductFormComponent } from '../admin-product-form/admin-product-form.component';
 import { FlexModule } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminProductAddService } from './admin-product-add.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,20 +18,20 @@ export class AdminProductAddComponent implements OnInit {
   productForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private adminProductAddService: AdminProductAddService,
-    private router: Router,
-    private snackbar: MatSnackBar,
-    private adminMessageService: AdminMessageService,
+    private readonly formBuilder: FormBuilder,
+    private readonly adminProductAddService: AdminProductAddService,
+    private readonly router: Router,
+    private readonly snackbar: MatSnackBar,
+    private readonly adminMessageService: AdminMessageService,
   ) {}
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
-      name: [''],
-      description: [''],
-      category: [''],
-      price: [''],
-      currency: ['PLN'],
+      name: ['', [Validators.required, Validators.minLength(4)]],
+      description: ['', [Validators.required, Validators.minLength(4)]],
+      category: ['', [Validators.required, Validators.minLength(4)]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      currency: ['PLN', Validators.required],
     });
   }
 
@@ -48,9 +48,7 @@ export class AdminProductAddComponent implements OnInit {
               }),
             );
         },
-        error: (err) => {
-          this.adminMessageService.addBackendErrors(err.error)
-        },
+        error: (err) => this.adminMessageService.addBackendErrors(err.error),
       });
   }
 }

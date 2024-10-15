@@ -16,15 +16,20 @@ export class AdminMessageService {
 
   addBackendErrors(error: any): void {
     this.clear();
+    this.extractMessages(error);
+    this.subject.next(this.messages);
+  }
+
+  private extractMessages(error: any) {
     if (error.errors?.length > 0) {
       for (let message of error.errors) {
-        this.messages.push(
-          `Pole: ${message.field} -> ${message.defaultMessage}`,
-        );
+        const errorMessage = (message.field && message.defaultMessage) ?
+            `Pole: ${message.field} -> ${message.defaultMessage}` :
+            `${message.error}, ${message.message}`
+        this.messages.push(errorMessage);
       }
     } else {
       this.messages.push(error.messages);
     }
-    this.subject.next(this.messages);
   }
 }
