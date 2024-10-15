@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { AdminMessageService } from '../admin-message.service';
-import {NgForOf, NgIf} from "@angular/common";
-import {FlexModule} from "@angular/flex-layout";
+import { NgForOf, NgIf } from '@angular/common';
+import { FlexModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-admin-message',
@@ -13,23 +13,36 @@ import {FlexModule} from "@angular/flex-layout";
   styleUrl: './admin-message.component.scss',
 })
 export class AdminMessageComponent implements OnInit, OnDestroy {
+  private clickCounter = 0;
   messages: Array<string> = [];
 
-  constructor(private adminMessageService: AdminMessageService) {}
-
-  ngOnDestroy(): void {
-    this.adminMessageService.subject.unsubscribe();
-  }
+  constructor(
+      private readonly adminMessageService: AdminMessageService
+  ) {}
 
   ngOnInit(): void {
     this.adminMessageService.subject.subscribe((messages) => {
       this.messages = messages;
-      console.log(messages);
+      this.timeoutCloseMessages();
     });
   }
 
   clearMessages() {
     this.messages = [];
     this.adminMessageService.clear();
+  }
+
+  ngOnDestroy(): void {
+    this.adminMessageService.subject.unsubscribe();
+  }
+
+  private timeoutCloseMessages() {
+    this.clickCounter++;
+    setTimeout(() => {
+      if (this.clickCounter == 1) {
+        this.clearMessages();
+      }
+      this.clickCounter--;
+    }, 12000);
   }
 }
