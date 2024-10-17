@@ -8,6 +8,6 @@
 
     <form [formGroup]="imageForm" (submit)="uploadFile()">
         <input type="file" [accept]="requiredFileTypes" (change)="onFileChange($event)">
-        <button mat-flat-button color="basic">Upload</button>
+        <button [disabled]="!imageForm.valid" mat-flat-button color="basic">Upload</button>
     </form>
 </div>

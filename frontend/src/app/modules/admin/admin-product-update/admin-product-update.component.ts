@@ -12,11 +12,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminProductFormComponent } from '../admin-product-form/admin-product-form.component';
 import { AdminMessageService } from '../admin-message.service';
-import {NgIf} from "@angular/common";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-admin-product-update',
@@ -40,7 +39,7 @@ export class AdminProductUpdateComponent implements OnInit {
   productForm!: FormGroup;
   imageForm!: FormGroup;
   requiredFileTypes = 'image/jpeg, image/png';
-  image: string | null = null;
+  image = '';
 
   constructor(
     private readonly router: ActivatedRoute,
@@ -59,11 +58,10 @@ export class AdminProductUpdateComponent implements OnInit {
       category: ['', [Validators.required, Validators.minLength(4)]],
       price: ['', [Validators.required, Validators.min(0)]],
       currency: ['PLN', Validators.required],
-      image: [''],
     });
 
     this.imageForm = this.formBuilder.group({
-      file: [''],
+      file: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
 
@@ -72,18 +70,35 @@ export class AdminProductUpdateComponent implements OnInit {
 
     this.adminProductUpdateService
       .getProduct(id)
-      .pipe(map(mapToAdminProduct))
-      .subscribe((newValue) => this.productForm.setValue(newValue));
+      .subscribe((newValue) => {
+        this.image = newValue.image;
+        this.productForm.setValue({
+          name: newValue.name,
+          description: newValue.description,
+          category: newValue.category,
+          price: newValue.price,
+          currency: newValue.currency,
+        });
+      });
   }
 
   submit() {
     const id = Number(this.router.snapshot.params['id']);
     this.adminProductUpdateService
-      .saveProduct(id, this.productForm.value)
-      .pipe(map(mapToAdminProduct))
+      .saveProduct(id, {
+        ...this.productForm.value,
+        image: this.image,
+      })
       .subscribe({
         next: (newValue) => {
-          this.productForm.setValue(newValue);
+          this.image = newValue.image;
+          this.productForm.setValue({
+            name: newValue.name,
+            description: newValue.description,
+            category: newValue.category,
+            price: newValue.price,
+            currency: newValue.currency,
+          });
           this.snackBar.open('Produkt zosta? zapisany', '', { duration: 3000 });
         },
         error: (err) => this.adminMessageService.addBackendErrors(err.error),
@@ -93,11 +108,10 @@ export class AdminProductUpdateComponent implements OnInit {
   uploadFile() {
     let formData = new FormData();
     formData.append('file', this.imageForm.get('file')?.value);
-    this.adminProductUpdateService.uploadImage(formData)
-        .subscribe(result => {
-          console.log(`new image value ` + result.fileName)
-          this.image = result.fileName
-        });
+    this.adminProductUpdateService.uploadImage(formData).subscribe((result) => {
+      console.log(`new image value ` + result.fileName);
+      this.image = result.fileName;
+    });
   }
 
   onFileChange(event: any) {
@@ -109,11 +123,5 @@ export class AdminProductUpdateComponent implements OnInit {
   }
 }
 
-const mapToAdminProduct = (product: AdminProductUpdate) => ({
-  name: product.name,
-  description: product.description,
-  category: product.category,
-  price: product.price,
-  currency: product.currency,
-  image: product.image
-});
+
+
