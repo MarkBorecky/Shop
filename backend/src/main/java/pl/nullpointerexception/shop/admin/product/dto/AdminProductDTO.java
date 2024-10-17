@@ -30,6 +30,7 @@ public class AdminProductDTO {
 	private BigDecimal price;
 	
 	private AdminProductCurrency currency;
+	private String image;
 	
 	public AdminProduct mapToAdminProduct(Long id) {
 		return AdminProduct.builder()
@@ -39,6 +40,7 @@ public class AdminProductDTO {
 				.description(this.description)
 				.price(this.price)
 				.currency(this.currency)
+				.image(this.image)
 				.build();
 	}
 }

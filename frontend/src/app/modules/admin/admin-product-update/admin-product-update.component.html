@@ -3,4 +3,11 @@
     <form [formGroup]="productForm" (submit)="submit()" fxLayout="column">
         <app-admin-product-form [parentForm]="productForm"></app-admin-product-form>
     </form>
+
+    <img *ngIf="image" src="{{'/api//data/productImage/' + image}}" width="200px" alt="img">
+
+    <form [formGroup]="imageForm" (submit)="uploadFile()">
+        <input type="file" [accept]="requiredFileTypes" (change)="onFileChange($event)">
+        <button mat-flat-button color="basic">Upload</button>
+    </form>
 </div>
