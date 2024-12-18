@@ -19,6 +19,16 @@
 .productContent {
   font-size: 18px;
 }
+
 mat-card {
   margin-bottom: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: #777;
 }

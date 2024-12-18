@@ -22,12 +22,25 @@ import { NgIf } from '@angular/common';
   template: ` <div [formGroup]="parentForm" fxLayout="column">
     <mat-form-field appearance="fill">
       <mat-label>name</mat-label>
-      <input matInput placeholder="Podaj nazw?" formControlName="name" />
+      <input matInput placeholder="Podaj nazwę" formControlName="name" />
       <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
         <div *ngIf="name?.errors?.['required']" class="errorMessages">
           Nazwa jest wymagana
         </div>
         <div *ngIf="name?.errors?.['minlength']" class="errorMessages">
+          Nazwa musi mieć 4 znaki
+        </div>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Przyjazny url</mat-label>
+      <input matInput placeholder="Podaj url" formControlName="slug" />
+      <div *ngIf="slug?.invalid && (slug?.dirty || slug?.touched)">
+        <div *ngIf="slug?.errors?.['required']" class="errorMessages">
+          Nazwa jest wymagana
+        </div>
+        <div *ngIf="slug?.errors?.['minlength']" class="errorMessages">
           Nazwa musi mieć 4 znaki
         </div>
       </div>
@@ -122,6 +135,10 @@ export class AdminProductFormComponent {
 
   get name() {
     return this.parentForm.get('name');
+  }
+
+  get slug() {
+    return this.parentForm.get('slug');
   }
 
   get description() {

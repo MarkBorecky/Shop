@@ -34,4 +34,5 @@ public class AdminProduct {
 	@Enumerated(EnumType.STRING)
 	private AdminProductCurrency currency;
 	private String image;
+	private String slug;
 }

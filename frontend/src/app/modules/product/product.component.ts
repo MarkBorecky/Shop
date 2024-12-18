@@ -8,6 +8,7 @@ import {Product} from "./model/product";
 import {Page} from "../../shared/model/page";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Pageable} from "../../shared/model/pageable";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: 'app-product',
@@ -21,7 +22,8 @@ import {Pageable} from "../../shared/model/pageable";
         MatCardContent,
         FlexModule,
         NgForOf,
-        MatPaginator
+        MatPaginator,
+        RouterLink
     ],
     templateUrl: './product.component.html',
     styleUrl: './product.component.scss'

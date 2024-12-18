@@ -2,6 +2,7 @@ package pl.nullpointerexception.shop.admin.product.dto;
 
 import java.math.BigDecimal;
 
+import com.github.slugify.Slugify;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Min;
@@ -14,6 +15,10 @@ import pl.nullpointerexception.shop.admin.product.service.AdminProduct;
 @Data
 @NoArgsConstructor
 public class AdminProductDTO {
+	public static final Slugify SLUGIFY = Slugify.builder()
+			.customReplacement("_", "-")
+			.build();
+	
 	@NotBlank
 	@Length(min = 4)
 	private String name;
@@ -32,6 +37,10 @@ public class AdminProductDTO {
 	private AdminProductCurrency currency;
 	private String image;
 	
+	@NotBlank
+	@Length(min = 4)
+	private String slug;
+	
 	public AdminProduct mapToAdminProduct(Long id) {
 		return AdminProduct.builder()
 				.id(id)
@@ -41,6 +50,12 @@ public class AdminProductDTO {
 				.price(this.price)
 				.currency(this.currency)
 				.image(this.image)
+				.slug(this.slugify(this.slug))
 				.build();
 	}
+	
+	private String slugify(String slug) {
+		return SLUGIFY.slugify(slug);
+	}
+	
 }

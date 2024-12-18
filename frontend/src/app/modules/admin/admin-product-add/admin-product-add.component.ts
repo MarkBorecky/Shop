@@ -28,6 +28,7 @@ export class AdminProductAddComponent implements OnInit {
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
+      slug: ['', [Validators.required, Validators.minLength(4)]],
       description: ['', [Validators.required, Validators.minLength(4)]],
       category: ['', [Validators.required, Validators.minLength(4)]],
       price: ['', [Validators.required, Validators.min(0)]],
