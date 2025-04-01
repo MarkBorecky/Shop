@@ -1,10 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FlexModule } from '@angular/flex-layout';
-import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { FormCategoryService } from './form-category.service';
 import { NgIf } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { FlexModule } from '@angular/flex-layout';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { AdminCategoryNameDTO } from './AdminCategoryNameDTO';
 
 @Component({
   selector: 'app-admin-product-form',
@@ -18,6 +21,9 @@ import { NgIf } from '@angular/common';
     MatInput,
     MatButton,
     NgIf,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule
   ],
   template: ` <div [formGroup]="parentForm" fxLayout="column">
     <mat-form-field appearance="fill">
@@ -70,17 +76,19 @@ import { NgIf } from '@angular/common';
 
     <mat-form-field appearance="fill">
       <mat-label>category</mat-label>
-      <input
+      <!-- <input
         matInput
         placeholder="podaj kategorię produktu"
         formControlName="category"
-      />
-      <div *ngIf="category?.invalid && (category?.dirty || category?.touched)">
-        <div *ngIf="category?.errors?.['required']" class="errorMessages">
+      /> -->
+      <mat-select formControlName="categoryId">
+        @for (category of categories; track category) {
+          <mat-option [value]="category.id">{{category.name}}</mat-option>
+        }
+      </mat-select>
+      <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)">
+        <div *ngIf="categoryId?.errors?.['required']" class="errorMessages">
           Kategoria jest wymagana
-        </div>
-        <div *ngIf="category?.errors?.['minlength']" class="errorMessages">
-          Kategoria musi mieć 4 znaki
         </div>
       </div>
     </mat-form-field>
@@ -130,8 +138,21 @@ import { NgIf } from '@angular/common';
     `,
   ],
 })
-export class AdminProductFormComponent {
+export class AdminProductFormComponent implements OnInit {
   @Input() parentForm!: FormGroup;
+
+  categories: Array<AdminCategoryNameDTO> = [];
+
+  constructor(private formCategoryService: FormCategoryService) {}
+
+  ngOnInit(): void {
+    this.getCategories();
+  }
+
+  getCategories() {
+    this.formCategoryService.getCategories()
+      .subscribe(categories => this.categories = categories)
+  }
 
   get name() {
     return this.parentForm.get('name');
@@ -145,8 +166,8 @@ export class AdminProductFormComponent {
     return this.parentForm.get('description');
   }
 
-  get category() {
-    return this.parentForm.get('category');
+  get categoryId() {
+    return this.parentForm.get('categoryId');
   }
 
   get price() {

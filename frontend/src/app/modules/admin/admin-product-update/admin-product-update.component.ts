@@ -47,7 +47,7 @@ export class AdminProductUpdateComponent implements OnInit {
             name: ['', [Validators.required, Validators.minLength(4)]],
             slug: ['', [Validators.required, Validators.minLength(4)]],
             description: ['', [Validators.required, Validators.minLength(4)]],
-            category: ['', [Validators.required, Validators.minLength(4)]],
+            categoryId: ['', [Validators.required]],
             price: ['', [Validators.required, Validators.min(0)]],
             currency: ['PLN', Validators.required],
         });
@@ -68,7 +68,7 @@ export class AdminProductUpdateComponent implements OnInit {
                     name: newValue.name,
                     slug: newValue.slug,
                     description: newValue.description,
-                    category: newValue.category,
+                    categoryId: newValue.categoryId,
                     price: newValue.price,
                     currency: newValue.currency,
                 });
@@ -89,7 +89,7 @@ export class AdminProductUpdateComponent implements OnInit {
                         name: newValue.name,
                         slug: newValue.slug,
                         description: newValue.description,
-                        category: newValue.category,
+                        categoryId: newValue.categoryId,
                         price: newValue.price,
                         currency: newValue.currency,
                     });
