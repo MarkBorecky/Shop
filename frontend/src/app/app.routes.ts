@@ -13,6 +13,7 @@ import {AdminProductAddComponent} from "./modules/admin/admin-product-add/admin-
 import {ProductDetailsComponent} from "./modules/product-details/product-details.component";
 import { AdminCategoryAddComponent } from './modules/admin/admin-category/admin-category-add/admin-category-add.component';
 import { AdminCategoryUpdateComponent } from './modules/admin/admin-category/admin-category-update/admin-category-update.component';
+import { CategoryComponent } from './modules/category/category.component';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,7 @@ export const routes: Routes = [
             {path: '', component: HomeComponent},
             {path: 'products', component: ProductComponent},
             {path: 'products/:slug', component: ProductDetailsComponent},
+            {path: 'categories/:slug', component: CategoryComponent},
         ]
     },
     {

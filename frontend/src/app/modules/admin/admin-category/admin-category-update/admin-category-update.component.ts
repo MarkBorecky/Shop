@@ -1,15 +1,18 @@
 import { AdminMessageService } from './../../admin-message.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminCategoryService } from '../admin-category.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminCategory } from '../model/AdminCategory';
+import { AdminCategoryFormComponent } from '../admin-category-form/admin-category-form.component';
 
 @Component({
   selector: 'app-admin-category-update',
   standalone: true,
-  imports: [],
+  imports: [
+    ReactiveFormsModule, AdminCategoryFormComponent
+  ],
   templateUrl: './admin-category-update.component.html',
   styleUrl: './admin-category-update.component.scss'
 })

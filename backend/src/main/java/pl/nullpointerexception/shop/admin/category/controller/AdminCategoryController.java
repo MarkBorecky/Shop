@@ -1,9 +1,7 @@
 package pl.nullpointerexception.shop.admin.category.controller;
 
 import com.github.slugify.Slugify;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.*;
 import pl.nullpointerexception.shop.admin.category.controller.dto.AdminCategoryDto;
 import pl.nullpointerexception.shop.admin.category.model.AdminCategory;
@@ -30,7 +28,7 @@ public class AdminCategoryController {
         return adminCategoryService.getCategoryById(id);
     }
 
-    @PostMapping("/admin/categories/")
+    @PostMapping("/admin/categories")
     public AdminCategory createCategory(@RequestBody AdminCategoryDto adminCategoryDto) {
         return adminCategoryService.createCategory(mapToAdminCategory(adminCategoryDto));
     }
