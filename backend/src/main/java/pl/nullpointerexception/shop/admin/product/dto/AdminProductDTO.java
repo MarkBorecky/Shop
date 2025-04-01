@@ -3,6 +3,7 @@ package pl.nullpointerexception.shop.admin.product.dto;
 import java.math.BigDecimal;
 
 import com.github.slugify.Slugify;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Min;
@@ -23,9 +24,8 @@ public class AdminProductDTO {
 	@Length(min = 4)
 	private String name;
 	
-	@NotBlank
-	@Length(min = 4)
-	private String category;
+	@NotNull
+	private Long categoryId;
 	
 	@NotBlank
 	@Length(min = 4)
@@ -45,7 +45,7 @@ public class AdminProductDTO {
 		return AdminProduct.builder()
 				.id(id)
 				.name(this.name)
-				.category(this.category)
+				.categoryId(this.categoryId)
 				.description(this.description)
 				.price(this.price)
 				.currency(this.currency)
