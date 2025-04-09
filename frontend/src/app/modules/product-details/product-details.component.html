@@ -16,4 +16,35 @@
             <button mat-flat-button color="warn">Do koszyka</button>
         </div>
     </div>
+    <div>
+      <h2>Opinie o produkcie</h2>
+
+      <div>
+        <div *ngFor="let review of product?.reviews" class="review">
+          <div>Author: {{ review.authorName }}</div>
+          <div>{{ review.content }}</div>
+        </div>
+      </div>
+
+      <form [formGroup]="reviewForm" (submit)="submit()" fxLayout="column">
+        <mat-form-field appearance="fill" >
+            <mat-label>Autor</mat-label>
+            <input matInput placeholder="Podaj swoje imię" formControlName="authorName" fxFill>
+            <mat-error *ngIf="authorName?.invalid && (authorName?.dirty || authorName?.touched)">
+              <span *ngIf="authorName?.errors?.['required']">Imię jest wymagane</span>
+              <span *ngIf="authorName?.errors?.['minlength']">Imię musi mieć przynajmniej 2 znaki</span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Twoja opinia o produkcie</mat-label>
+            <textarea matInput rows="10" placeholder="Twoja opinia" formControlName="content" fxFill></textarea>
+            <mat-error *ngIf="content?.invalid && (content?.dirty || content?.touched)">
+              <span *ngIf="content?.errors?.['required']">Opinia jest wymagana</span>
+              <span *ngIf="content?.errors?.['minlength']">Opinia musi mieć przynajmniej 4 znaki</span>
+            </mat-error>
+        </mat-form-field>
+        <div fxLayout="column" fxFlexAlign="end" fxLayoutGap="10">
+          <button mat-flat-button color="primary" [disabled]="!reviewForm.valid">Zapisz</button>
+        </div>
+    </form>
 </div>
